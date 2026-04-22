@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>뇌 구조 알아보기</title>
+  <style>
+    body {
+      background-color: #f7f1ff;
+      font-family: Arial;
+      margin: 0;
+    }
+
+    header {
+      background-color: #d8c4f0;
+      text-align: center;
+      padding: 20px;
+      border-radius: 0 0 20px 20px;
+    }
+
+    .container {
+      display: flex;
+      padding: 20px;
+    }
+
+    .left-box {
+      width: 40%;
+      background-color: white;
+      padding: 20px;
+      margin-right: 20px;
+      box-shadow: 10px 10px 5px #8dc;
+      border-radius: 20px;
+    }
+
+    .right-box {
+      width: 60%;
+      background-color: white;
+      padding: 20px;
+      box-shadow: 10px 10px 5px #8dc;
+      border-radius: 20px;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+    }
+
+    button {
+      padding: 8px;
+      margin: 5px;
+      background-color: #cfe8ff;
+      border: 1px solid #999;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .info {
+      background-color: #f3edff;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>뇌 구조 알아보기</h1>
+</header>
+
+<div class="container">
+
+  <!-- 왼쪽 -->
+  <div class="left-box">
+    <h2>뇌 구조</h2>
+
+    <button onclick="showBrain('대뇌')">대뇌</button>
+    <button onclick="showBrain('간뇌')">간뇌</button>
+    <button onclick="showBrain('중뇌')">중뇌</button>
+    <button onclick="showBrain('연수')">연수</button>
+    <button onclick="showBrain('소뇌')">소뇌</button>
+    <button onclick="showBrain('척수')">척수</button>
+
+    <p><img src="img.png" alt="뇌 구조 그림"></p>
+
+    <div class="info">
+      <h3 id="leftTitle">구조를 선택하세요</h3>
+      <p id="Description">왼쪽 버튼을 누르면 설명이 나옵니다.</p>
+    </div>
+  </div>
+
+  <!-- 오른쪽 -->
+  <div class="right-box">
+    <h2 id="detailTitle">구조 정보</h2>
+
+    <div class="info">
+      <p><b>역할</b></p>
+      <p id="Role">왼쪽에서 구조를 선택하세요.</p>
+    </div>
+
+    <div class="info">
+      <p><b>특징</b></p>
+      <p id="Feature">선택한 구조의 특징이 표시됩니다.</p>
+    </div>
+
+    <div class="info">
+      <p><b>작용</b></p>
+      <p id="Process">선택한 구조의 작용이 표시됩니다.</p>
+    </div>
+
+    <div class="info">
+      <p><b>재미있는 사실</b></p>
+      <p id="Tip">재미있는 정보가 표시됩니다.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showBrain(name) {
+
+  document.getElementById("detailTitle").innerHTML = name;
+  document.getElementById("leftTitle").innerHTML = name;
+
+  if (name == "대뇌") {
+    document.getElementById("Description").innerHTML = "대뇌는 뇌에서 가장 큰 부분으로, 생각하고 판단하며 기억하는 데 중요한 역할을 합니다. 또한 감각 정보를 받아들이고 스스로 움직임을 조절하는 데도 관여합니다.";
+    document.getElementById("Role").innerHTML = "언어, 학습, 기억, 감정 표현, 감각 인식 등 사람이 일상생활을 하는 데 필요한 많은 기능을 담당합니다. 자발적인 운동 명령도 대뇌에서 시작됩니다.";
+    document.getElementById("Feature").innerHTML = "겉면에 주름이 많아 넓은 면적을 가지며, 좌뇌와 우뇌로 나누어져 있습니다. 각각의 부분은 담당하는 기능이 조금씩 다릅니다.";
+    document.getElementById("Process").innerHTML = "눈, 귀, 피부 등에서 들어온 정보를 분석하고 해석한 뒤 알맞은 반응을 결정합니다. 예를 들어 보고, 생각하고, 말하고, 움직이는 과정에 모두 관여합니다.";
+    document.getElementById("Tip").innerHTML = "공부를 하거나 문제를 해결할 때 특히 활발하게 작용합니다. 사람이 다른 동물보다 복잡한 사고를 할 수 있는 데에도 대뇌가 큰 역할을 합니다.";
+  }
+
+  else if (name == "간뇌") {
+    document.getElementById("Description").innerHTML = "간뇌는 몸의 내부 상태를 일정하게 유지하도록 돕는 중요한 부분입니다. 배고픔, 갈증, 체온, 수면 같은 기본적인 생리 작용을 조절합니다.";
+    document.getElementById("Role").innerHTML = "감각 정보를 전달하고 체온 조절, 식욕 조절, 호르몬 조절 등에 관여합니다. 몸이 너무 덥거나 추울 때 균형을 맞추는 데도 중요한 역할을 합니다.";
+    document.getElementById("Feature").innerHTML = "간뇌에는 시상과 시상하부가 포함되어 있습니다. 시상은 감각 정보를 전달하고, 시상하부는 항상성을 유지하는 역할을 합니다.";
+    document.getElementById("Process").innerHTML = "몸에서 들어오는 여러 신호를 받아 필요한 곳으로 전달하고, 현재 몸 상태에 맞게 조절 명령을 내립니다. 그래서 몸이 안정된 상태를 유지할 수 있습니다.";
+    document.getElementById("Tip").innerHTML = "배가 고프거나 졸릴 때, 혹은 목이 마를 때 느끼는 변화에도 간뇌가 관여합니다. 겉으로 잘 드러나지 않지만 생존에 매우 중요한 구조입니다.";
+  }
+
+  else if (name == "중뇌") {
+    document.getElementById("Description").innerHTML = "중뇌는 시각과 청각 자극에 빠르게 반응하도록 돕는 부분입니다. 갑작스러운 빛이나 소리에 몸이 즉시 반응하게 만드는 데 관여합니다.";
+    document.getElementById("Role").innerHTML = "눈의 움직임, 동공 반사, 소리와 빛에 대한 반응을 조절합니다. 외부 자극을 빠르게 받아들이고 몸이 즉각 대응하도록 연결해 줍니다.";
+    document.getElementById("Feature").innerHTML = "중뇌는 뇌간의 일부로, 대뇌와 연수 사이에 위치합니다. 크기는 크지 않지만 자극 반응과 운동 조절에 중요한 기능을 합니다.";
+    document.getElementById("Process").innerHTML = "강한 빛을 보면 눈을 감거나, 갑자기 큰 소리가 나면 고개를 돌리는 반응에 관여합니다. 즉각적이고 빠른 반응이 필요한 상황에서 작용합니다.";
+    document.getElementById("Tip").innerHTML = "갑자기 이름을 부르면 바로 뒤돌아보는 반응에도 중뇌가 관련됩니다. 위험을 빨리 알아차리도록 돕는 중요한 구조라고 볼 수 있습니다.";
+  }
+
+  else if (name == "연수") {
+    document.getElementById("Description").innerHTML = "연수는 생명 유지에 꼭 필요한 기능을 조절하는 부분입니다. 우리가 의식하지 않아도 숨 쉬고 심장이 뛰도록 계속 작용합니다.";
+    document.getElementById("Role").innerHTML = "호흡, 심장 박동, 혈액순환, 소화 운동 같은 기본적인 생명 활동을 담당합니다. 재채기, 기침, 삼키기 같은 반사 작용에도 관여합니다.";
+    document.getElementById("Feature").innerHTML = "뇌간 아래쪽에 위치하며 척수와 이어져 있습니다. 스스로 의식하지 않아도 자동으로 작동하는 기능을 많이 담당합니다.";
+    document.getElementById("Process").innerHTML = "몸의 상태를 계속 확인하면서 호흡 속도나 심장 박동을 알맞게 유지합니다. 잠을 자는 동안에도 쉬지 않고 작동하여 생명을 유지시켜 줍니다.";
+    document.getElementById("Tip").innerHTML = "우리가 자고 있을 때도 숨을 쉬고 심장이 뛰는 이유는 연수가 계속 일하기 때문입니다. 눈에 띄지 않지만 매우 중요한 뇌의 부분입니다.";
+  }
+
+  else if (name == "소뇌") {
+    document.getElementById("Description").innerHTML = "소뇌는 몸의 균형을 잡고 움직임을 자연스럽게 만들어 주는 부분입니다. 걷기, 뛰기, 물건 잡기 같은 동작을 부드럽게 조절합니다.";
+    document.getElementById("Role").innerHTML = "자세 유지, 평형 감각, 근육의 협응 운동을 담당합니다. 여러 근육이 정확한 순서와 힘으로 움직이도록 돕는 역할을 합니다.";
+    document.getElementById("Feature").innerHTML = "대뇌보다 작지만 주름이 많고, 운동 조절에 매우 중요한 역할을 합니다. 몸의 움직임이 어색하지 않게 만드는 데 큰 영향을 줍니다.";
+    document.getElementById("Process").innerHTML = "대뇌에서 내려온 운동 명령을 조정하여 실제 움직임이 더 정확하고 부드럽게 이루어지도록 합니다. 균형을 잃지 않게 하는 데도 관여합니다.";
+    document.getElementById("Tip").innerHTML = "자전거를 타거나 춤을 출 때 소뇌가 특히 중요하게 작용합니다. 소뇌 기능에 문제가 생기면 몸의 균형을 잡기 어려워질 수 있습니다.";
+  }
+
+  else if (name == "척수") {
+    document.getElementById("Description").innerHTML = "척수는 뇌와 몸을 연결하는 신경의 통로 역할을 합니다. 몸에서 받은 자극을 뇌로 전달하고, 뇌의 명령을 다시 몸으로 보내 줍니다.";
+    document.getElementById("Role").innerHTML = "감각 신호와 운동 신호를 빠르게 전달하며, 간단한 반사 작용도 처리합니다. 위험한 자극에 빠르게 반응할 수 있도록 도와줍니다.";
+    document.getElementById("Feature").innerHTML = "척추 안쪽을 따라 길게 이어져 있는 신경 조직입니다. 뇌와 연결되어 있으며 몸 전체와 정보를 주고받는 중요한 길 역할을 합니다.";
+    document.getElementById("Process").innerHTML = "뜨거운 것을 만졌을 때 손을 재빨리 떼는 반사 작용은 척수가 빠르게 처리하는 대표적인 예입니다. 이런 작용 덕분에 몸을 위험으로부터 보호할 수 있습니다.";
+    document.getElementById("Tip").innerHTML = "반사 작용은 뇌까지 가지 않고 척수에서 바로 처리되는 경우가 많습니다. 그래서 위험한 상황에서 더 빠르게 반응할 수 있습니다.";
+  }
+}
+</script>
+
+</body>
+</html>
