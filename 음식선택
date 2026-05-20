@@ -1,1 +1,243 @@
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>오늘 뭐 먹지? - 결정장애 메뉴 추천기</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #fffaf0, #e8f5e9);
+      color: #333;
+      text-align: center;
+    }
+
+    header {
+      background-color: #6fbf73;
+      color: white;
+      padding: 35px;
+      border-radius: 0 0 35px 35px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 38px;
+    }
+
+    header p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    .container {
+      width: 85%;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 25px;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+
+    .buttons {
+      margin: 20px 0;
+    }
+
+    button {
+      background-color: #f8c8b8;
+      border: none;
+      padding: 13px 20px;
+      margin: 8px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff8a65;
+      color: white;
+      transform: scale(1.08);
+    }
+
+    .random-btn {
+      background-color: #6fbf73;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      padding: 15px 35px;
+    }
+
+    .random-btn:hover {
+      background-color: #388e3c;
+    }
+
+    .menu-card {
+      width: 340px;
+      margin: 30px auto;
+      padding: 25px;
+      background-color: #fffaf0;
+      border-radius: 25px;
+      border: 3px solid #c8e6c9;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+      transition: 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+    }
+
+    #foodImg {
+      font-size: 85px;
+      margin: 10px;
+    }
+
+    #foodName {
+      font-size: 30px;
+      color: #2e7d32;
+      margin: 10px 0;
+    }
+
+    #foodReason, #foodPrice {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      background-color: #dcedc8;
+      color: #33691e;
+      padding: 8px 15px;
+      border-radius: 15px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin: 30px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🍽️ 오늘 뭐 먹지?</h1>
+    <p>결정장애를 위한 상황별 메뉴 추천기</p>
+  </header>
+
+  <div class="container">
+    <h2>지금 원하는 상황을 골라보세요!</h2>
+
+    <div class="buttons">
+      <button onclick="recommend('hangover')">해장</button>
+      <button onclick="recommend('night')">야식</button>
+      <button onclick="recommend('full')">든든히 먹기</button>
+      <button onclick="recommend('spicy')">매운 것</button>
+      <button onclick="recommend('light')">가볍게 먹기</button>
+    </div>
+
+    <button class="random-btn" onclick="randomMenu()">🎲 오늘의 메뉴 뽑기</button>
+
+    <div class="menu-card">
+      <div id="foodImg">🤔</div>
+      <h2 id="foodName">메뉴를 골라주세요</h2>
+      <p id="foodReason">상황 버튼을 누르면 메뉴를 추천해드립니다.</p>
+      <p id="foodPrice"></p>
+      <span class="tag" id="foodTag">결정장애 해결</span>
+    </div>
+  </div>
+
+  <footer>
+    HTML · CSS · JavaScript로 제작한 메뉴 추천 웹사이트
+  </footer>
+
+  <script>
+    const menus = {
+      hangover: [
+        { name: "콩나물국밥", img: "🥣", reason: "뜨끈한 국물과 콩나물이 속을 편하게 풀어줍니다.", price: "예상 가격: 8,000원~", tag: "해장 추천" },
+        { name: "순댓국", img: "🍲", reason: "든든하고 따뜻해서 해장 메뉴로 인기가 많습니다.", price: "예상 가격: 9,000원~", tag: "든든한 해장" },
+        { name: "짬뽕", img: "🍜", reason: "얼큰한 국물이 속을 시원하게 풀어주는 느낌을 줍니다.", price: "예상 가격: 9,000원~", tag: "얼큰한 해장" },
+        { name: "뼈해장국", img: "🍖", reason: "국물과 고기가 함께 있어 해장과 한 끼 식사로 좋습니다.", price: "예상 가격: 10,000원~", tag: "국물 메뉴" },
+        { name: "북엇국", img: "🥘", reason: "자극적이지 않고 깔끔해서 속이 불편할 때 좋습니다.", price: "예상 가격: 8,000원~", tag: "깔끔한 해장" },
+        { name: "라면", img: "🍜", reason: "간단하지만 얼큰하게 먹을 수 있는 대표 해장 메뉴입니다.", price: "예상 가격: 4,000원~", tag: "간단 해장" }
+      ],
+
+      night: [
+        { name: "치킨", img: "🍗", reason: "야식 하면 가장 먼저 떠오르는 실패 없는 메뉴입니다.", price: "예상 가격: 18,000원~", tag: "야식 대표" },
+        { name: "족발", img: "🍖", reason: "밤에 든든하게 먹고 싶을 때 잘 어울립니다.", price: "예상 가격: 25,000원~", tag: "든든한 야식" },
+        { name: "떡볶이", img: "🌶️", reason: "매콤달달해서 출출한 밤에 먹기 좋습니다.", price: "예상 가격: 9,000원~", tag: "분식 야식" },
+        { name: "라볶이", img: "🍜", reason: "라면과 떡볶이를 함께 먹는 느낌이라 만족감이 높습니다.", price: "예상 가격: 7,000원~", tag: "매콤 야식" },
+        { name: "햄버거", img: "🍔", reason: "간단하지만 포만감이 있어서 늦은 시간에 먹기 좋습니다.", price: "예상 가격: 6,000원~", tag: "간단 야식" },
+        { name: "피자", img: "🍕", reason: "여러 조각으로 나눠 먹기 좋아 야식 메뉴로 잘 어울립니다.", price: "예상 가격: 15,000원~", tag: "배달 야식" }
+      ],
+
+      full: [
+        { name: "제육덮밥", img: "🍛", reason: "밥과 고기를 함께 먹을 수 있어 든든한 한 끼입니다.", price: "예상 가격: 8,000원~", tag: "든든한 밥" },
+        { name: "돈가스", img: "🍱", reason: "바삭하고 양이 많아 만족감이 높은 메뉴입니다.", price: "예상 가격: 9,000원~", tag: "든든한 메뉴" },
+        { name: "김치찌개", img: "🥘", reason: "밥과 함께 먹기 좋아 든든하고 익숙한 메뉴입니다.", price: "예상 가격: 8,000원~", tag: "한식 추천" },
+        { name: "부대찌개", img: "🍲", reason: "햄, 라면, 국물이 함께 있어 배부르게 먹기 좋습니다.", price: "예상 가격: 10,000원~", tag: "푸짐한 한 끼" },
+        { name: "카레라이스", img: "🍛", reason: "밥과 소스가 잘 어울려 간단하면서도 든든합니다.", price: "예상 가격: 7,000원~", tag: "간편 든든" },
+        { name: "국밥", img: "🥣", reason: "따뜻한 국물과 밥을 함께 먹을 수 있어 포만감이 큽니다.", price: "예상 가격: 9,000원~", tag: "든든 국물" }
+      ],
+
+      spicy: [
+        { name: "마라탕", img: "🍲", reason: "얼얼하고 매운맛을 원하는 날에 잘 어울립니다.", price: "예상 가격: 12,000원~", tag: "매운맛 추천" },
+        { name: "불닭볶음면", img: "🔥", reason: "강한 매운맛이 당길 때 간단히 먹기 좋은 메뉴입니다.", price: "예상 가격: 2,000원~", tag: "강한 매운맛" },
+        { name: "매운 떡볶이", img: "🌶️", reason: "매콤달달한 맛으로 스트레스 풀기에 좋습니다.", price: "예상 가격: 9,000원~", tag: "스트레스 해소" },
+        { name: "낙지볶음", img: "🐙", reason: "매콤한 양념과 밥이 잘 어울리는 메뉴입니다.", price: "예상 가격: 11,000원~", tag: "매콤한 한식" },
+        { name: "닭발", img: "🍗", reason: "화끈한 매운맛이 생각날 때 잘 맞는 야식 메뉴입니다.", price: "예상 가격: 15,000원~", tag: "화끈한 맛" },
+        { name: "쭈꾸미볶음", img: "🐙", reason: "매콤한 양념과 쫄깃한 식감이 매력적인 메뉴입니다.", price: "예상 가격: 12,000원~", tag: "매콤 쫄깃" }
+      ],
+
+      light: [
+        { name: "샐러드", img: "🥗", reason: "부담 없이 가볍게 먹고 싶을 때 좋습니다.", price: "예상 가격: 8,000원~", tag: "가벼운 한 끼" },
+        { name: "포케", img: "🍣", reason: "채소, 밥, 단백질을 함께 먹을 수 있어 균형 잡힌 메뉴입니다.", price: "예상 가격: 11,000원~", tag: "건강식" },
+        { name: "김밥", img: "🍙", reason: "간단하고 부담 없이 먹기 좋은 메뉴입니다.", price: "예상 가격: 3,500원~", tag: "간단 메뉴" },
+        { name: "샌드위치", img: "🥪", reason: "빠르게 먹기 좋고 과하게 배부르지 않습니다.", price: "예상 가격: 6,000원~", tag: "간편식" },
+        { name: "유부초밥", img: "🍱", reason: "작게 나누어 먹기 좋고 깔끔한 맛이 특징입니다.", price: "예상 가격: 5,000원~", tag: "깔끔한 메뉴" },
+        { name: "닭가슴살 도시락", img: "🍱", reason: "단백질이 많고 비교적 가볍게 먹을 수 있습니다.", price: "예상 가격: 7,000원~", tag: "단백질 추천" }
+      ]
+    };
+
+    function showMenu(menu) {
+      document.getElementById("foodImg").innerHTML = menu.img;
+      document.getElementById("foodName").innerHTML = menu.name;
+      document.getElementById("foodReason").innerHTML = menu.reason;
+      document.getElementById("foodPrice").innerHTML = menu.price;
+      document.getElementById("foodTag").innerHTML = menu.tag;
+    }
+
+    function recommend(type) {
+      let list = menus[type];
+      let randomIndex = Math.floor(Math.random() * list.length);
+      showMenu(list[randomIndex]);
+    }
+
+    function randomMenu() {
+      let allMenus = [];
+
+      for (let type in menus) {
+        allMenus = allMenus.concat(menus[type]);
+      }
+
+      let count = 0;
+
+      let roulette = setInterval(function() {
+        let randomIndex = Math.floor(Math.random() * allMenus.length);
+        showMenu(allMenus[randomIndex]);
+        count++;
+
+        if (count > 18) {
+          clearInterval(roulette);
+        }
+      }, 90);
+    }
+  </script>
+
+</body>
+</html>
+  
