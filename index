@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>낚시 조과 카운터</title>
+
+  <!-- ★ 홈 화면 아이콘: 원하는 이미지의 웹 주소(URL)를 href 안 따옴표에 넣으시면 됩니다 ★ -->
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3062/3062631.png">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3062/3062631.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* 상단 요약 정보 */
+    .header {
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .stat-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #a0a0a0;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #00e676;
+    }
+
+    /* 타이머 조작 버튼 */
+    .timer-control-zone {
+      margin-bottom: 12px;
+    }
+
+    .btn-timer {
+      width: 100%;
+      background-color: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
+    }
+
+    .btn-timer.active {
+      background-color: #ff9100;
+      box-shadow: 0 4px 10px rgba(255, 145, 0, 0.3);
+    }
+
+    /* 중앙 메인 카운터 Display */
+    .counter-display {
+      background-color: #1e1e1e;
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 16px;
+      border: 1px solid #333;
+    }
+
+    .count-number {
+      font-size: 5rem;
+      font-weight: 900;
+      color: #3d5aff;
+      line-height: 1;
+      margin-bottom: 8px;
+      text-shadow: 0 0 20px rgba(61, 90, 255, 0.4);
+    }
+
+    .last-time-info {
+      font-size: 0.9rem;
+      color: #ffab00;
+      font-weight: 600;
+    }
+
+    /* 메인 버튼 영역 */
+    .action-zone {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .btn-hit {
+      background: linear-gradient(135deg, #00c853, #009624);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 28px;
+      font-size: 2rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 200, 83, 0.4);
+      transition: transform 0.05s ease, background 0.2s;
+      width: 100%;
+    }
+
+    .btn-hit:active {
+      transform: scale(0.97);
+      background: linear-gradient(135deg, #009624, #00701a);
+    }
+
+    .sub-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-secondary:active {
+      background-color: #3d3d3d;
+    }
+
+    .btn-danger {
+      color: #ff5252;
+      border-color: #ff5252;
+    }
+
+    /* 하단 타임라인 로그 */
+    .log-container {
+      flex: 1;
+      background-color: #1e1e1e;
+      border-radius: 12px;
+      padding: 16px;
+      overflow-y: auto;
+      border: 1px solid #2a2a2a;
+    }
+
+    .log-title {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 6px;
+    }
+
+    .log-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #262626;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .log-count {
+      font-weight: bold;
+      color: #3d5aff;
+    }
+
+    .log-time {
+      color: #ffffff;
+    }
+
+    .log-gap {
+      font-size: 0.8rem;
+      color: #ffab00;
+      background-color: rgba(255, 171, 0, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .empty-log {
+      text-align: center;
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 통계 요약 헤더 -->
+  <div class="header">
+    <div class="stat-card">
+      <span class="stat-label">낚시 진행 시간</span>
+      <span class="stat-value" id="elapsed-time">00:00:00</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">평균 입질 간격</span>
+      <span class="stat-value" id="avg-interval">-</span>
+    </div>
+  </div>
+
+  <!-- 2. 독립형 낚시 시작/일시정지 버튼 -->
+  <div class="timer-control-zone">
+    <button class="btn-timer" id="timer-btn" onclick="toggleTimer()">▶ 낚시 시작하기</button>
+  </div>
+
+  <!-- 3. 중앙 메인 카운터 -->
+  <div class="counter-display">
+    <div class="count-number" id="count">0</div>
+    <div class="last-time-info" id="last-interval-info">시작 버튼을 누른 후 첫 입질을 기다려주세요</div>
+  </div>
+
+  <!-- 4. 메인 조작 버튼 -->
+  <div class="action-zone">
+    <button class="btn-hit" onclick="addCatch()">+1 HIT!</button>
+    <div class="sub-buttons">
+      <button class="btn-secondary" onclick="undoCatch()">실행 취소 (-1)</button>
+      <button class="btn-secondary btn-danger" onclick="resetAll()">초기화</button>
+    </div>
+  </div>
+
+  <!-- 5. 히트 타임라인 로그 -->
+  <div class="log-container">
+    <div class="log-title">입질 기록 (최신순)</div>
+    <ul class="log-list" id="log-list">
+      <div class="empty-log" id="empty-msg">기록된 입질이 없습니다.</div>
+    </ul>
+  </div>
+
+  <script>
+    let count = 0;
+    let history = []; 
+    
+    let timerInterval = null;
+    let isRunning = false;
+    let totalSeconds = 0;
+
+    function toggleTimer() {
+      const btn = document.getElementById('timer-btn');
+      
+      if (!isRunning) {
+        isRunning = true;
+        btn.innerText = "⏸ 낚시 일시정지";
+        btn.classList.add('active');
+        
+        timerInterval = setInterval(() => {
+          totalSeconds++;
+          renderElapsedTime();
+        }, 1000);
+
+        if (count === 0 && history.length === 0) {
+          document.getElementById('last-interval-info').innerText = "첫 입질을 기다리는 중...";
+        }
+      } else {
+        isRunning = false;
+        btn.innerText = "▶ 낚시 재개하기";
+        btn.classList.remove('active');
+        clearInterval(timerInterval);
+      }
+    }
+
+    function renderElapsedTime() {
+      const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(totalSeconds % 60).padStart(2, '0');
+      document.getElementById('elapsed-time').innerText = `${hours}:${mins}:${secs}`;
+    }
+
+    function addCatch() {
+      if (!isRunning) {
+        toggleTimer();
+      }
+
+      const now = new Date();
+      let intervalStr = "첫 입질";
+
+      if (history.length > 0) {
+        const lastTime = history[0].timestamp;
+        const diffMins = Math.floor((now - lastTime) / 60000);
+        const diffSecs = Math.floor(((now - lastTime) % 60000) / 1000);
+        
+        if (diffMins > 0) {
+          intervalStr = `+${diffMins}분 ${diffSecs}초`;
+        } else {
+          intervalStr = `+${diffSecs}초`;
+        }
+      }
+
+      count++;
+      const record = {
+        id: count,
+        timestamp: now,
+        intervalStr: intervalStr
+      };
+
+      history.unshift(record);
+      updateUI();
+
+      if (navigator.vibrate) {
+        navigator.vibrate(80);
+      }
+    }
+
+    function undoCatch() {
+      if (count === 0 || history.length === 0) return;
+
+      count--;
+      history.shift();
+      updateUI();
+    }
+
+    function resetAll() {
+      if (count === 0 && history.length === 0 && totalSeconds === 0) return;
+
+      if (confirm("카운터와 진행 시간, 모든 기록을 초기화하시겠습니까?")) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        totalSeconds = 0;
+
+        count = 0;
+        history = [];
+
+        const btn = document.getElementById('timer-btn');
+        btn.innerText = "▶ 낚시 시작하기";
+        btn.classList.remove('active');
+
+        renderElapsedTime();
+        updateUI();
+      }
+    }
+
+    function updateUI() {
+      document.getElementById('count').innerText = count;
+
+      const lastInfoEl = document.getElementById('last-interval-info');
+      const avgEl = document.getElementById('avg-interval');
+
+      if (history.length === 0) {
+        lastInfoEl.innerText = isRunning ? "첫 입질을 기다리는 중..." : "시작 버튼을 누른 후 첫 입질을 기다려주세요";
+        avgEl.innerText = "-";
+      } else {
+        const latest = history[0];
+        const timeStr = latest.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        
+        if (history.length === 1) {
+          lastInfoEl.innerText = `마지막 히트: ${timeStr} (첫 입질)`;
+          avgEl.innerText = "-";
+        } else {
+          lastInfoEl.innerText = `마지막 히트: ${timeStr} (${latest.intervalStr})`;
+          
+          const totalDiffMs = history[0].timestamp - history[history.length - 1].timestamp;
+          const avgMins = Math.round((totalDiffMs / (history.length - 1)) / 60000);
+          avgEl.innerText = `약 ${avgMins}분`;
+        }
+      }
+
+      const listEl = document.getElementById('log-list');
+
+      if (history.length === 0) {
+        listEl.innerHTML = '<div class="empty-log" id="empty-msg">기록된 입질이 없습니다.</div>';
+        return;
+      }
+
+      listEl.innerHTML = history.map(item => {
+        const timeFormatted = item.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        return `
+          <li class="log-item">
+            <span class="log-count">#${item.id}</span>
+            <span class="log-time">${timeFormatted}</span>
+            <span class="log-gap">${item.intervalStr}</span>
+          </li>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>
